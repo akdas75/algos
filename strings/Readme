@@ -1,0 +1,18 @@
+1. Reversing a string
+2. Is a string a palindrome
+3. Counting words and vowels in a string
+4. Compare two strings
+5. Duplicate in a string
+6. Check if two stings are anagram
+
+
+
+
+
+
+
+When using char s[] = "hello";, the char array is created in the scope of the current function, 
+                                hence the memory is allocated on the stack when entering the function.
+
+When using char *s = "hello";, s is a pointer to a constant string which the compiler saves in a 
+      block of memory of the program which is blocked for write-access, hence the segmentation fault.
