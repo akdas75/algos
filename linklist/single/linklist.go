@@ -142,6 +142,64 @@ func (l *List) reverse () (*List){
 
 }
 
+
+func (l *List) insert_sorted (element int) (* List) {
+
+    var prev *List = nil
+	//var cur *List = l
+	var root *List = l
+
+	s := new (List)
+    s.data = element
+	s.next = nil
+
+	fmt.Printf ("Inserting ....%d \n",element)
+
+	if (l == nil) {		
+
+		return s
+	} else {
+
+		for {
+
+			
+			if element < l.data.(int) {
+
+				if prev == nil {
+					/* First element */
+
+					s.next = l
+					return s
+
+				} else {
+                   
+					prev.next = s
+					s.next = l
+
+					return root
+				}
+				
+
+			} else {
+				fmt.Printf ("TO next....\n")
+				prev = l
+				l = l.next
+
+				if l == nil {
+					/* reach last element */
+					prev.next = s
+					return root
+				}
+			} 
+
+		}
+
+	}
+
+	
+	
+}
+
 func main () {
 
 	var root *List = nil
@@ -174,5 +232,16 @@ func main () {
 
 	root1.delete_node(900)
 	root1.display_list ()
+
+	fmt.Println ("Insert sorted ....")
+	var root2 *List = nil
+	root2 = root2.insert_sorted (10)
+	root2 = root2.insert_sorted (1)
+	root2 = root2.insert_sorted (99)
+	root2 = root2.insert_sorted (25)
+	root2 = root2.insert_sorted (7)
+
+	root2.display_list ()
+
     
 }
