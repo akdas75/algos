@@ -1,0 +1,109 @@
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct dll_t {
+
+    struct dll_t *next;
+    struct dll_t *prev;
+    int data;
+
+}dll;
+
+
+void delete_node(dll **root, int element)
+{
+
+    printf("Deleting ... %d \n", element);
+
+   
+    dll *cur = *root;
+    int found = 0;
+
+    /*search for the element */
+    while (cur->next != NULL)
+    {
+
+        if (cur->data == element)
+        {
+            found = 1;
+            break;
+        }
+     
+        cur = cur->next;
+    }
+
+    if (found == 1)
+    {
+
+        if (cur->prev != NULL) {
+
+               cur->prev->next = cur->next;
+               cur->next->prev = cur->prev;
+        } else {
+               cur->next->prev = NULL;
+               *root = cur->next;
+        }
+
+        free (cur);
+    }
+    else
+    {
+        printf("No elements found \n");
+    }
+}
+
+
+void insert_node (dll **root, int element) {
+
+    dll *node = (dll *)malloc (sizeof (struct dll_t));
+    node->next = NULL;
+    node->prev = NULL;
+    node->data = element;
+    if (*root == NULL) {
+        *root = node;
+    } else {
+        node->next = *root;
+        (*root)->prev = node;
+        *root = node;
+    }
+}
+
+void display_node(dll *root)
+{
+
+    while (root)
+    {
+        printf("%d \t", root->data);
+        root = root->next;
+    }
+
+    printf("\n");
+}
+
+
+
+int main () {
+
+     dll *root = NULL;
+
+    insert_node (&root, 10);
+    insert_node (&root, 100);
+    insert_node (&root, 200);
+    insert_node (&root, 11);
+    insert_node (&root, 199);
+
+    display_node (root);
+
+    delete_node (&root, 11);
+
+    display_node (root);
+
+    delete_node (&root, 199);
+
+    display_node (root);
+
+    return 0;
+}
