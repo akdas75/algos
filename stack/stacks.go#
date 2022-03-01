@@ -1,0 +1,134 @@
+
+
+package main
+
+
+import (
+	"fmt"
+)
+
+type Stack struct {
+
+	top int
+	size int
+	data []int
+
+}
+
+func newStack (size int) *Stack {
+	stack := new (Stack)
+	stack.top = -1
+	stack.size = size;
+	stack.data = make ([]int, size, size)
+
+	return stack
+}
+
+
+func (st *Stack) push (elem int) {
+
+	
+	if (st.top <  st.size - 1) {	
+		st.top++
+	    st.data[st.top] = elem
+	} else {
+		fmt.Println ("Stack full")
+	}	 
+
+}
+
+func (st *Stack) pop () (int) {
+
+    elem := -1
+	if (st.top < 0) {
+		fmt.Println ("Stack empty")
+
+	} else {
+	    elem = st.data[st.top] 
+	    st.top--
+
+	}
+	return elem
+}
+
+func (st *Stack) is_stack_empty () (bool) {
+
+  
+	if (st.top < 0) {
+		fmt.Println ("Stack empty")
+		return true
+
+	}
+	return false
+}
+
+func (st *Stack) is_stack_full () (bool) {
+
+	fmt .Println (st.top)
+  
+	if (st.top >= st.size - 1) {
+		fmt.Println ("Stack full")
+		return true
+
+	}
+	return false
+}
+
+func (st *Stack) peek (index int) (int) {
+
+	i := st.top - index + 1
+
+	return st.data [i]
+
+}
+
+func main () {
+
+	fmt.Println  ("Stack program ");
+
+	st := newStack(5)
+
+	fmt.Println (st.size)
+
+	fmt.Printf ("Pushing Element %d \n",1)
+	st.push (1)
+
+	fmt.Printf ("Pushing Element %d \n",2)
+	st.push (2)
+
+	fmt.Printf ("Pushing Element %d \n",3)
+	st.push (3)
+
+	fmt.Printf ("Pushing Element %d \n",4)
+	st.push (4)
+
+	fmt.Printf ("Pushing Element %d \n",5)
+	st.push (5)
+
+	fmt.Printf ("Pushing Element %d \n",6)
+	st.push (6)
+
+	fmt.Printf ("Pushing Element %d \n",7)
+	st.push (7)
+
+	fmt.Printf ("Pushing Element %d \n",8)
+	st.push (8)
+
+	fmt.Printf ("Is stack full %v \n",st.is_stack_full())
+
+	fmt.Printf ("Peek  %d \n",st.peek(2))
+
+
+	fmt.Println ("######## Popping ##############") 
+	fmt.Printf ("Popping Element %d \n",st.pop())
+	fmt.Printf ("Popping Element %d \n",st.pop())
+	fmt.Printf ("Popping Element %d \n",st.pop())
+	fmt.Printf ("Popping Element %d \n",st.pop())
+	fmt.Printf ("Popping Element %d \n",st.pop())
+	fmt.Printf ("Popping Element %d \n",st.pop())
+	fmt.Printf ("Popping Element %d \n",st.pop())
+	fmt.Printf ("Popping Element %d \n",st.pop())
+
+	fmt.Printf ("Is stack empty %v \n",st.is_stack_empty())
+
+}
