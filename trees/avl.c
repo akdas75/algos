@@ -19,7 +19,11 @@ int height (avl *root) {
     if (root == NULL)
         return 0;
 
+    printf ("%d \n",root->data);    
+
+    printf ("computing height \n"); 
     return 1 + max (height (root->left), height (root->right));     
+    printf ("computing height done \n"); 
 }
 
 int getBalance (avl *root) {
@@ -185,7 +189,135 @@ void inorder(avl *root)
     }
 }
 
+avl* minValueNode(avl* node)
+{
+    avl *current = node;
+ 
+    /* loop down to find the leftmost leaf */
+    while (current && current->left != NULL)
+        current = current->left;
+ 
+    printf ("Inorder succesor %d \n",current->data);
 
+    return current;
+}
+
+avl* avl_delete (avl *root, int element) {
+
+
+    printf ("Deleting element %d \n",element);
+
+    avl *node = NULL;
+
+    if (root == NULL) {
+        return root;
+    }    
+
+    // If the key to be deleted is smaller than the
+    // root's key, then it lies in left subtree
+    if ( element < root->data )
+        root->left = avl_delete(root->left, element);
+ 
+    // If the key to be deleted is greater than the
+    // root's key, then it lies in right subtree
+    else if( element > root->data )
+        root->right = avl_delete(root->right, element);
+ 
+    // if key is same as root's key, then This is
+    // the node to be deleted
+    else {
+
+        /* No childeren */
+        if ((root->left == NULL) && (root->right == NULL)) {
+             printf ("Case : No children \n");
+             free (root);            
+             return NULL;
+        }
+
+         /* only right child */ 
+        if (root->left == NULL) {
+            printf ("Case : One  children  RIGHT \n");
+            node = root->right;
+            free (root);
+            return node;
+        }
+
+         /* only left child */ 
+        if (root->right == NULL) {
+
+             printf ("Case : One  children  LEFT \n");
+            node = root->left;
+            free (root);
+            return node;
+        }
+
+        /* Both child exists */
+        /* Find the inorder successor */
+
+        printf ("Case : Both  children   \n");
+
+        avl* temp = minValueNode(root->right);
+
+        root->data = temp->data;
+
+        avl_delete (root->right, temp->data);
+    }
+
+    printf ("Proceeding to balance \n");
+
+    // If the tree had only one node then return
+    if (root == NULL) {
+      printf ("Returning as root is null \n");
+      return root;
+    } 
+
+       printf ("Proceeding to balance 1 \n");
+    
+    /* compute the height */
+    root->height = height (root);
+
+     printf ("Proceeding to balance 2 \n");
+
+
+    /* get the balance factor of the node */
+    int balance = getBalance (root);
+
+    printf ("Node %d balance %d \n",root->data,balance);
+
+    /* left heavy */
+    if ((balance > 1) && (element < root->left->data)) {
+        printf ("left left case \n");
+        /* left left case */
+        /* right rotate */
+        return rightRotate (root);
+    }
+
+    /* left heavy */
+    if ((balance > 1) && (element > root->left->data)) {
+        /* left right case */
+        printf ("left right case \n");
+        root->left =  leftRotate(root->left);
+        return rightRotate (root);
+    }
+
+    /* right heavy */
+    if ((balance < -1) && (element < root->right->data)) {
+        /* right left case */
+        /* left rotate */
+         printf ("right left case \n");
+         root->right =  rightRotate(root->right);
+        return leftRotate (root);
+    }
+
+     /* right heavy */
+    if ((balance < -1) && (element > root->right->data)) {
+        /* right right case */
+         printf ("right right case \n");        
+        return leftRotate (root);
+    }
+
+    return root;
+}
 
 int main () {
 
@@ -227,6 +359,12 @@ int main () {
   preOrder(root);
   printf ("\n");
   inorder (root);
+
+printf ("\nDeleting 30 \n");
+root = avl_delete (root,20);
+  printf ("\n IO \n");
+  inorder (root);
+   printf ("\n");
 
     return 0;
 

@@ -154,6 +154,7 @@ bst* bst_delete (bst *root, int element) {
         if (root->left == NULL) {
             printf ("Case : One  children  RIGHT \n");
             node = root->right;
+             free (root);
             return node;
         }
 
@@ -162,6 +163,7 @@ bst* bst_delete (bst *root, int element) {
 
              printf ("Case : One  children  LEFT \n");
             node = root->left;
+             free (root);
             return node;
         }
 
